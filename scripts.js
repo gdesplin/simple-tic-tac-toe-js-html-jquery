@@ -2,17 +2,17 @@ $(document).ready(function() {
   console.log("im awake")
 
   self = this
+  self.score = { x: 0, o: 0 }
   self.gameBoardState = []
   self.turn = "x"
   self.gameOver = false
   resetGame(self)
   updateTurnDisplay(self)
-  console.log(self.gameBoardState) 
+  updateScoreDisplay(self)
   $("[data-square]").click(function() {
     if (self.gameOver || $(this).html() !== '-') {
       return
     }
-    console.log($(this).attr("data-square"))
     markSqaure(self, $(this))
     checkForWinner(self)
     checkForTie(self)
@@ -133,6 +133,10 @@ var declareWinner = function(self) {
       Player ${self.turn} has won! Please <button data-resetgame="true">reset game</button>.
     `
   )
+  self.score[self.turn] += 1
+  console.log(self.score[self.turn])
+  console.log(self.score)
+  updateScoreDisplay(self)
   self.gameOver = true
 }
 var checkForTie = function(self) {
@@ -144,4 +148,11 @@ var checkForTie = function(self) {
     )
     self.gameOver = true
   }
+}
+var updateScoreDisplay = function(self) {
+  console.log(self.score.x)
+  console.log(self.score.o)
+  console.log(self.score)
+  $("[data-scorex]").html(self.score.x)
+  $("[data-scoreo]").html(self.score.o)
 }
